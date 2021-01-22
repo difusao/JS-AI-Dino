@@ -1,0 +1,36 @@
+{
+  "name": "ai-dino",
+  "version": "1.0.0",
+  "description": "AI-Dino",
+  "main": "server.js",
+  "bin": {
+    "ai-dino": "server.js"
+  },
+  "scripts": {
+    "test": "nodemon ./bin/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/difusao/AI-Dino.git"
+  },
+  "keywords": [
+    "AI",
+    "Dino",
+    "Google",
+    "Chrome",
+    "Javascript",
+    "NodeJS",
+    "Synaptic"
+  ],
+  "author": "Fanuel Nunes <difusao@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/difusao/AI-Dino/issues"
+  },
+  "homepage": "https://github.com/difusao/AI-Dino#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "http": "0.0.1-security",
+    "nodemon": "^2.0.7"
+  }
+}
