@@ -2,7 +2,7 @@
 AI-Dino
 
 ## Run
-> In your browser
+> In your Google Chrome browser:
 `chrome://dino/`
 
 ##
