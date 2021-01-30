@@ -1,5 +1,8 @@
 'use strict';
 
+// import SynapticBrowser from '../rna/SynapticBrowser.js'
+// import AGWB from '../ag/AGWeightsBest.js'
+
 function startGame(tRexGameRunner) {
   var keyEvent = {
     JUMP: 38,
@@ -40,22 +43,13 @@ function startGame(tRexGameRunner) {
     if (tRexGameRunner.runningTime > tRexGameRunner.config.CLEAR_TIME) {
       let obstacle = tRexGameRunner.horizon.obstacles[0];
 
-      // TODO Sensores do jogo
-      let obsW = obstacle.width;
-      let obsH = obstacle.height;
-      let obsPosX = obstacle.xPos;
-      let obsPosY = obstacle.yPos;
-      let obsSpd = tRexGameRunner.currentSpeed;
-
-      let datas = [Number(obsW.toFixed(9)), Number(obsH.toFixed(9)), Number(obsPosX.toFixed(9)), Number(obsPosY.toFixed(9)), Number(obsSpd.toFixed(9))];
-
-      console.log("Sensores:", { obsW: obsW, obsH: obsH, obsPosX: obsPosX, obsPosY:obsPosY, obsSpd:obsSpd });
+      console.log("Sensores:", { obsW: obstacle.width, obsH: obstacle.height, obsPosX: obstacle.xPos, obsPosY:obstacle.yPos, obsSpd:tRexGameRunner.currentSpeed });
 
       // jumpDragon();
       // duckDragon();
     }
 
-    setTimeout(updateGame, 50);
+    setTimeout(updateGame, 30);
   };
 
   updateGame();
