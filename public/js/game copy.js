@@ -1,20 +1,3 @@
-import SynapticBrowser from './rna/SynapticBrowser.js'
-import AGWB from './ag/AGWeightsBest.js'
-
-// TODO Redes Neurais Artificiais
-const layers = { inputs: 5, hiddens: [5], outputs: 2 };
-const network = SynapticBrowser(layers);
-
-// TODO Algoritmos Genéticos
-const model = { popTotal: 100, mutation: 0.50, best: 2, wmin: -1, wmax: 1 };
-const ag = AGWB(model);
-
-let score = 0;
-let best = 0;
-let gen = 1;
-let pop = 0;
-let population = [];
-
 // Copyright (c) 2014 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
@@ -141,7 +124,7 @@ let population = [];
         MIN_JUMP_HEIGHT: 35,
         MOBILE_SPEED_COEFFICIENT: 1.2,
         RESOURCE_TEMPLATE_ID: 'audio-resources',
-        SPEED: 6, // 6
+        SPEED: 6,
         SPEED_DROP_COEFFICIENT: 3
     };
 
@@ -493,6 +476,7 @@ let population = [];
             }
         },
 
+
         /**
          * Update the game status to started.
          */
@@ -714,7 +698,9 @@ let population = [];
          */
         onKeyUp: function (e) {
             var keyCode = String(e.keyCode);
-            var isjumpKey = Runner.keycodes.JUMP[keyCode] || e.type == Runner.events.TOUCHEND || e.type == Runner.events.MOUSEDOWN;
+            var isjumpKey = Runner.keycodes.JUMP[keyCode] ||
+                e.type == Runner.events.TOUCHEND ||
+                e.type == Runner.events.MOUSEDOWN;
 
             if (this.isRunning() && isjumpKey) {
                 this.tRex.endJump();
@@ -725,7 +711,9 @@ let population = [];
                 // Check that enough time has elapsed before allowing jump key to restart.
                 var deltaTime = getTimeStamp() - this.time;
 
-                if (Runner.keycodes.RESTART[keyCode] || this.isLeftClickOnCanvas(e) || (deltaTime >= this.config.GAMEOVER_CLEAR_TIME && Runner.keycodes.JUMP[keyCode])) {
+                if (Runner.keycodes.RESTART[keyCode] || this.isLeftClickOnCanvas(e) ||
+                    (deltaTime >= this.config.GAMEOVER_CLEAR_TIME &&
+                        Runner.keycodes.JUMP[keyCode])) {
                     this.restart();
                 }
             } else if (this.paused && isjumpKey) {
@@ -779,9 +767,11 @@ let population = [];
 
             this.tRex.update(100, Trex.status.CRASHED);
 
-            // TODO Game over panel.
+            // Game over panel.
             if (!this.gameOverPanel) {
-                this.gameOverPanel = new GameOverPanel(this.canvas, this.spriteDef.TEXT_SPRITE, this.spriteDef.RESTART, this.dimensions);
+                this.gameOverPanel = new GameOverPanel(this.canvas,
+                    this.spriteDef.TEXT_SPRITE, this.spriteDef.RESTART,
+                    this.dimensions);
             } else {
                 this.gameOverPanel.draw();
             }
@@ -796,7 +786,6 @@ let population = [];
             this.time = getTimeStamp();
 
             // TODO Crash Reset
-            this.restart();
             BrainReset();
         },
 
@@ -1016,7 +1005,7 @@ let population = [];
         TEXT_X: 0,
         TEXT_Y: 13,
         TEXT_WIDTH: 191,
-        TEXT_HEIGHT: 61,
+        TEXT_HEIGHT: 11,
         RESTART_WIDTH: 36,
         RESTART_HEIGHT: 32
     };
@@ -1126,8 +1115,10 @@ let population = [];
             for (var t = 0; t < tRexCollisionBoxes.length; t++) {
                 for (var i = 0; i < collisionBoxes.length; i++) {
                     // Adjust the box to actual positions.
-                    var adjTrexBox = createAdjustedCollisionBox(tRexCollisionBoxes[t], tRexBox);
-                    var adjObstacleBox = createAdjustedCollisionBox(collisionBoxes[i], obstacleBox);
+                    var adjTrexBox =
+                        createAdjustedCollisionBox(tRexCollisionBoxes[t], tRexBox);
+                    var adjObstacleBox =
+                        createAdjustedCollisionBox(collisionBoxes[i], obstacleBox);
                     var crashed = boxCompare(adjTrexBox, adjObstacleBox);
 
                     // Draw boxes for debug.
@@ -1141,7 +1132,6 @@ let population = [];
                 }
             }
         }
-
         return false;
     };
 
@@ -1168,7 +1158,8 @@ let population = [];
         canvasCtx.strokeRect(tRexBox.x, tRexBox.y, tRexBox.width, tRexBox.height);
 
         canvasCtx.strokeStyle = '#0f0';
-        canvasCtx.strokeRect(obstacleBox.x, obstacleBox.y, obstacleBox.width, obstacleBox.height);
+        canvasCtx.strokeRect(obstacleBox.x, obstacleBox.y,
+            obstacleBox.width, obstacleBox.height);
         canvasCtx.restore();
     };
 
@@ -1588,7 +1579,8 @@ let population = [];
          * Sets the t-rex to blink at random intervals.
          */
         init: function () {
-            this.groundYPos = Runner.defaultDimensions.HEIGHT - this.config.HEIGHT - Runner.config.BOTTOM_PAD;
+            this.groundYPos = Runner.defaultDimensions.HEIGHT - this.config.HEIGHT -
+                Runner.config.BOTTOM_PAD;
             this.yPos = this.groundYPos;
             this.minJumpHeight = this.groundYPos - this.config.MIN_JUMP_HEIGHT;
 
@@ -1900,7 +1892,6 @@ let population = [];
 
             this.calcXPos(width);
             this.maxScore = this.maxScoreUnits;
-
             for (var i = 0; i < this.maxScoreUnits; i++) {
                 this.draw(i, 0);
                 this.defaultString += '0';
@@ -1915,7 +1906,8 @@ let population = [];
          * @param {number} canvasWidth
          */
         calcXPos: function (canvasWidth) {
-            this.x = canvasWidth - (DistanceMeter.dimensions.DEST_WIDTH * (this.maxScoreUnits + 1));
+            this.x = canvasWidth - (DistanceMeter.dimensions.DEST_WIDTH *
+                (this.maxScoreUnits + 1));
         },
 
         /**
@@ -1949,7 +1941,8 @@ let population = [];
 
             if (opt_highScore) {
                 // Left of the current score.
-                var highScoreX = this.x - (this.maxScoreUnits * 2) * DistanceMeter.dimensions.WIDTH;
+                var highScoreX = this.x - (this.maxScoreUnits * 2) *
+                    DistanceMeter.dimensions.WIDTH;
                 this.canvasCtx.translate(highScoreX, this.y);
             } else {
                 this.canvasCtx.translate(this.x, this.y);
@@ -1985,9 +1978,9 @@ let population = [];
 
             if (!this.acheivement) {
                 distance = this.getActualDistance(distance);
-
                 // Score has gone beyond the initial digit count.
-                if (distance > this.maxScore && this.maxScoreUnits == this.config.MAX_DISTANCE_UNITS) {
+                if (distance > this.maxScore && this.maxScoreUnits ==
+                    this.config.MAX_DISTANCE_UNITS) {
                     this.maxScoreUnits++;
                     this.maxScore = parseInt(this.maxScore + '9');
                 } else {
@@ -2004,11 +1997,9 @@ let population = [];
                     }
 
                     // Create a string representation of the distance with leading 0.
-                    var distanceStr = (this.defaultString + distance).substr(-this.maxScoreUnits);
+                    var distanceStr = (this.defaultString +
+                        distance).substr(-this.maxScoreUnits);
                     this.digits = distanceStr.split('');
-
-                    // TODO Score
-                    score = distance;
                 } else {
                     this.digits = this.defaultString.split('');
                 }
@@ -2061,10 +2052,8 @@ let population = [];
          */
         setHighScore: function (distance) {
             distance = this.getActualDistance(distance);
-            // TODO Best Score
-            best = distance;
-
             var highScoreStr = (this.defaultString + distance).substr(-this.maxScoreUnits);
+
             this.highScore = ['10', '11', ''].concat(highScoreStr.split(''));
         },
 
@@ -2483,6 +2472,7 @@ let population = [];
         this.init();
     };
 
+
     /**
      * Horizon config.
      * @enum {number}
@@ -2519,8 +2509,7 @@ let population = [];
             this.nightMode.update(showNightMode);
             this.updateClouds(deltaTime, currentSpeed);
 
-            // TODO Update for Panel
-            BrainPanel(this.canvasCtx);
+            // TODO Update
 
             if (updateObstacles) {
                 this.updateObstacles(deltaTime, currentSpeed);
@@ -2679,147 +2668,26 @@ let population = [];
     };
 })();
 
-document.addEventListener('DOMContentLoaded', onDocumentLoad);
-
-var tRex;
-var ctx;
-var limitOutputs = [0, 0];
-var inputlabel = ["width", "height", "pos x", "pos y", "speed"];
-var outputlabel = ["jump", "duck"];
-let inputs = [0, 0, 0, 0, 0];
-let outputs = [0, 0];
-
 function onDocumentLoad() {
     // TODO Start
-    BrasinStart();
 
-    tRex = new Runner('.interstitial-wrapper');
-}
-
-// TODO Brain start
-function BrasinStart() {
-    // TODO RNA: População Inicial. Geração de pesos aleatórios.
-    network.setBiasDefault(1);
-    network.setActivateFunction(4);                             // HLIM=0, IDENTITY=1, LOGISTIC=2, ReLU=3, TANH=4
-
-    // console.log("PRIMEIRA POPULAÇÃO");
-    for (let i = 0; i < model.popTotal; i++) {
-        network.setWeightsRnd(model.wmin, model.wmax);
-        let weights = network.getWeights();
-        population.push({ id: i, weights: weights, value: 0 });
-        // console.log({ id: i, weights: weights, value: 0 });
-    }
-    // console.log("");
-
-    population[0].weights = [-0.1855074893456674, 0.29426994963942255, -0.47938619620630796, 0.8437695606009732, 0.8759347234665169, -0.3718949989409794, -0.916297583228455, 0.668739851983088, 0.35388256090730685, 0.5096573251241288, -0.6688908878075628, 0.7668411819980281, -0.3557601923238609, 0.6600085237691049, 0.31572942286144556, -0.26342007298619396, 0.3649950852623314, -0.4817665343674413, 0.7098784951392054, 0.1960845008187202, -0.1897816318628731, -0.11822496499351454, -0.8515678734502186, -0.019099177882437424, 0.4347996661630198, 0.5561324128626319, 0.4247042717910965, 0.9454885800007689, -0.9514872343970966, 0.005197405445398928, -0.9710143756441023]; // 133
-    // population[0].weights = [-0.1855074893456674, 0.29426994963942255, -0.47938619620630796, 0.8437695606009732, 0.8759347234665169, -0.3718949989409794, -0.916297583228455, 0.6687398519830881, 0.35388256090730685, 0.5096573251241288, -0.6688908878075628, 0.7668411819980281, -0.3557601923238609, 0.6600085237691049, 0.31572942286144556, -0.26342007298619396, 0.3649950852623314, -0.4817665343674413, 0.7098784951392054, 0.1960845008187202, -0.1897816318628731, -0.11822496499351454, -0.8515678734502186, -0.019099177882437424, 0.4347996661630198, 0.5561324128626319, 0.4247042717910965, 0.9454885800007689, -0.9514872343970966, 0.005197405445398928, -0.9710143756441023];
-    // population[0].weights = [0.5067281710568698,0.06005214754557198,0.6180719215750314,0.8365205858137559,-0.332401169943942,-0.4184370152069703,0.7587714177648675,0.3566954199038088,0.9484655166167912,0.2010242468254635,0.26802224160481414, -0.049507317729772904,0.907159849981535, 0.7568536822972884,-0.16799557347871685, 0.8323322237341086,-0.640887576148442, -0.935629651635911,0.15836851444085553, 0.4363859106199852,0.011790426551180566, -0.4860382420395903,-0.5930122202619827, -0.907984507550192,0.5831427476203013, -0.8752751810612684,0.4403442117027243, 0.6278012766864594,0.3623406350666518, 0.5771056934181771,0.8310383687528438, 0.7388539287030147,-0.11568945088685867, -0.5868440612619916]; // 159
-    // population[0].weights = [-0.5476143631145156, 0.7145528448128848, -0.9999816691802894, -0.4240890566654669, -0.3081054527727072, 0.8297011806457482, -0.1301889736567574, -0.4168215991371076, 0.8587010111138240, 0.8370761090957695, -0.9901415757325815, 0.2281380811093774, -0.17555166225290852, -0.20306215927734605, -0.43144314804536643, -0.4132007604044352, 0.10805572388381712, 0.4456821960948569, 0.2227467372113825, 0.023859867121693412, 0.2262021335595672, -0.5007320509165893, -0.34206474640897655, 0.2056387531549504, -0.30641851701412026, 0.7705989184015154, 0.6319163837734534, 0.5076126928659672, -0.07496585837956005, -0.01570372712819923, 0.7979583570034565, 0.17643762873142776, -0.4878726446526942, 0.3080318340872652, 0.42470510372450665, -0.7611811015495356, 0.8370347655673291, 0.79266525876344, 0.07365573125003833, -0.474154189849751, 0.03707559277937067, -0.8365742599830148, 0.9287936473376721, -0.5818163526900091, -0.5842628569116473, -0.36907069342988086, -0.8222550272876212, -0.2864596570453348, 0.7583343205194146, -0.5070527742030402, -0.747554780589601, 0.8326959515587005, 0.9334612467722136, 0.38003222392040925, 0.4372897000519771, 0.2485925187797311, 0.17054790070843628];    // 358
-    // population[0].weights = [-0.5476143631145156, 0.7145528448128848, -0.9999816691802894, -0.4240890566654669, -0.3081054527727072, 0.8297011806457482, -0.1301889736567574, 0.17975642009814052, 0.6255565064710389, 0.8370761090957695, -0.9901415757325815, 0.2281380811093774, -0.17555166225290852, -0.20306215927734605, -0.43144314804536643, -0.4132007604044352, 0.10805572388381712, 0.4456821960948569, 0.2227467372113825, 0.023859867121693412, 0.2262021335595672, -0.5007320509165893, -0.34206474640897655, 0.2056387531549504, -0.30641851701412026, 0.7705989184015154, 0.6319163837734534, 0.5076126928659672, -0.07496585837956005, -0.01570372712819923, 0.7979583570034565, 0.17643762873142776, -0.4878726446526942, 0.3080318340872652, 0.42470510372450665, -0.7611811015495356, 0.8370347655673291, 0.79266525876344, 0.07365573125003833, -0.474154189849751, 0.03707559277937067, 0.21384605456528938, 0.9287936473376721, -0.5818163526900091, -0.5842628569116473, -0.36907069342988086, -0.8222550272876212, -0.2864596570453348, 0.7583343205194146, -0.5070527742030402, -0.747554780589601, 0.8326959515587005, 0.9334612467722136, 0.38003222392040925, 0.4372897000519771, 0.2485925187797311, 0.17054790070843628, 0.8051869693053204]; // 285
-    // population[0].weights = [-0.506830965906786, -0.08200633112959421, -0.07137579052520193, -0.6757306653441821, 0.49933978981770055, 0.47222761260597457, 0.549566691521647, 0.9340385325755545, 0.776032643871785, 0.13094556713354955, 0.47641320473111426, 0.9975871625690758, 0.987843689721513, -0.6114351297829845, -0.9107046680156903, 0.5320143688420482, -0.4960654825280404, -0.8402100643930397, -0.1272494240931481, 0.13144729574121738, 0.4546254326864516, -0.942785458927768, -0.7317708439989112, 0.5747382460050998, -0.004862408486387526, -0.5967704007163861, -0.22524233177398356, -0.19685430221182587, -0.41153757394740964, 0.9461247516057583, -0.27800227875531025, -0.8865812607540771, -0.1686446140261988, -0.5133365740490778, 0.0006992409103849795, -0.9136234025275844, 0.1502871738205651, -0.9607387509161023, 0.9320186092162261, 0.8271458405850298, -0.5240705535478889, -0.1820231351519137, -0.1751548668376799, -0.31202403348139285, -0.534133663188129, 0.06188700000988501, 0.18485931669166478, 0.45310584617901073, -0.4731196340621744, -0.34558185069165104, -0.04324283193220335, 0.9095525423503967, 0.9827917701019646, -0.9893954783404602, -0.2513556894191775, 0.11001554158177607, 0.3856852954236967, 0.7645241902834767, -0.10033961787864243]; // 305
-    // population[0].weights = [0.3115244870905718, 0.6881721645526335, 0.9089368690555739, 0.4833330079700411, 0.41787004188960175, -0.4985701362028552, -0.9584887176665946, 0.0135309068309826, 0.43006590839465053, 0.6487431514000672, -0.23601269182106588, 0.9781721382921953, -0.3592844465881444, 0.1218567198925311, 0.655623687841898, -0.677838931504898, -0.6642599551193742, -0.620037984657575, -0.12316431626385071, -0.8852278458133971, 0.7303518391596566, -0.6484694488374894, -0.32825073183174114, -0.5846194511464273, 0.5007235117057709, 0.5738790596665386, 0.1289423945208985, -0.8727726249594383, -0.23024394893289468, -0.7025958698618178, 0.44718597942319027, -0.12119343522852866, 0.7660072253101302, -0.25972776422973665, 0.11681728273918912, -0.4963852015608712, 0.3202441692993836, -0.12629925518319096, 0.2585929391839059, -0.5582428069032037, 0.9498051217732959, -0.99520418195263, -0.7002833193857638, -0.7606903981591899, 0.14439431813367598, 0.48762397718384465, 0.6612198284828263, 0.5990842938420191, -0.38556496178421007, -0.5650556779909608, 0.8850933390315041, 0.9265611623379941, 0.49216359217836914, -0.5967122353887935, 0.696166117189585, 0.499573071921553, 0.5680801108212563, 0.6442131150450217];    
-    // population[0].weights = [5210262435197932, -0.4904047137680916, -0.3154139110490286, 0.7414044816858265, 0.673207371893112, -0.6842130893233969, -0.2782679101643839, 0.5096060532995983, -0.5783437111971184, 0.5466595154524923, 0.43940550856560723, -0.3451222944214809, 0.5402598816806607, -0.6951659452726893, -0.461431109534439, -0.425772865843419, -0.37251106161379255, 0.9727866401281324, 0.3340454158300923, 0.32466149310106385, 0.7194440060784153, 0.6237084216469921, -0.4555591731799824, -0.00587035217007692, 0.14444390772634508, "0.1377209343737640", 0.9361270325470636, -0.22214825963043072, -0.9563146663546296, 0.8546906815660744, -0.363053149110911, 0.0882895511338746, -0.6836488370746605, -0.1622636839401319];
-    // population[0].weights = [-0.8091008353538225,-0.17103810940865305,0.28767581903492445,0.414995785653677,0.6218964740050716,0.7471748936497056,0.43253771159035015,0.36858386530363196,-0.8544134992908319,0.959405726996093,0.009858467776727053, 0.4888715195618003,0.5984732986345231, -0.388822976315522,0.38681011194226356, 0.8925924431312913,0.4676136896901584, -0.6289571757486705,-0.6745107797415231, -0.2506636742120012,0.8878754450933846, 0.028508944356402832,0.08449696826294684, 0.7907354647766298,-0.2835001458282487, 0.8604319846577972,-0.2199736030184516, -0.7536860532629137,-0.901380672296451, 0.7359094146339631,-0.5026710210155194, -0.19173251936806635,0.6180652601246028, -0.6963709455866192,0.4658177666062282, 0.5519638917329175,-0.7747618240043939, -0.1647475505170326,-0.9998091550244754, -0.014630298307099388,-0.07398866803331083, 0.5754994759877539,-0.8843043578044769, 0.596256266539644,0.5088892347380858, -0.32099051781849486,-0.582007495417022, -0.046785807776095645,0.9532210133080774, -0.5147686618237501,-0.5650057907235473, -0.6470515387026978,0.23112405006392445, 0.5173135870686543,-0.29234218111909627, 0.2738645632577863,-0.8485346036241412, -0.3757253354174201,0.1850565604687695, -0.1973716015355707];  // 106
-
-    // TODO Primeiro peso
-    network.setWeights(population[0].weights);
+    new Runner('.interstitial-wrapper');
 }
 
 // TODO BrainUpdate
 function BrainUpdate(sensors) {
-    inputs = [Number((sensors.width / 1000).toFixed(3)), Number((sensors.height / 1000).toFixed(3)), Number((sensors.xpos / 1000).toFixed(3)), Number((sensors.ypos / 1000).toFixed(3)), Number((sensors.speed / 1000).toFixed(3))];
-    rna();
+    console.log(sensors);
 }
 
 // TODO BrainReset
 function BrainReset() {
-    // Test
-    // console.log("Pop", pop, "/", model.popTotal, "Score", score, "Best", best, "Gen", gen, "weights", population[pop].weights);
-
-    // /*
-    if (pop < model.popTotal) {
-        population[pop].value = score;
-        console.log("Pop", pop, "/", model.popTotal, "Score", score, "Best", best, "Gen", gen, "Value", population[pop].value, "weights", population[pop].weights);
-        network.setWeights(population[pop].weights);
-        pop++;
-    } else if (pop == model.popTotal) {
-        pop = 0;
-
-        // TODO AG: Seleção Natural
-        population = ag.start(population);
-
-        console.log("");
-        console.log(population);
-        console.log("");
-
-        // TODO RNA: Set primeiros pesos de uma nova geração
-        network.setWeights(population[pop].weights);
-
-        console.log("Pop", pop, "/", model.popTotal, "Score", score, "Best", best, "Gen", gen, "Value", population[pop].value, "weights", population[pop].weights);
-
-        pop++;
-        gen++;
-        score = 0;
-    }
-    // */
+    console.log("Reset");
 }
 
 // TODO BrainRestart
 function BrainRestart() {
-    inputs = [0, 0, 0, 0, 0];
-    outputs = [0, 0];
+    console.log("BrainRestart");
 }
 
-// TODO BrainPanel
-function BrainPanel(context) {
-    context.beginPath();
-    context.font = "Normal 14px Teko";
-    context.fillStyle = '#404040';
-
-    context.fillText("Pop:", 10, 10);
-    context.fillText("Gen:", 10, 25);
-
-    context.fillText(pop + " / " + model.popTotal, 40, 10);
-    context.fillText(gen, 40, 25);
-
-    context.closePath();
-
-    ctx = context;
-
-    // TODO RNA: Gráfico da Rede Neural
-    network.ShowDiagram({
-        limitOutput: limitOutputs,
-        inputs: inputs,
-        outputs: outputs,
-        bgWidth: 300,
-        bgHeight: 80,
-        bgFillStyle: "#ffffff",
-        bgStrokeStyle: "#ff0000",
-        inputlabel: inputlabel,
-        outputlabel: outputlabel,
-        ctx: ctx,
-    });
-
-    limitOutputs = [0, 0];
-}
-
-// TODO RNA
-const rna = function () {
-    outputs = network.Output(inputs);
-
-    var keyEvent = {
-        JUMP: 38,
-        DUCK: 40
-    };
-
-    // TODO RNA: Key events
-    if (outputs[0] > 0.70) {
-        tRex.tRex.startJump(Math.round(tRex.currentSpeed * 10));
-        limitOutputs = [1, 0];
-    } else if (outputs[1] < 60) {
-        tRex.onKeyDown({ keyCode: keyEvent.DUCK, type: 'keydown' });
-        limitOutputs = [0, 1];
-    } else {
-        limitOutputs = [0, 0];
-    }
-}
+// startGame(new Runner('.interstitial-wrapper'));
+document.addEventListener('DOMContentLoaded', onDocumentLoad);
