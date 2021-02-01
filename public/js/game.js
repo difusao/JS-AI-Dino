@@ -6,7 +6,7 @@ const layers = { inputs: 5, hiddens: [5], outputs: 2 };
 const network = SynapticBrowser(layers);
 
 // TODO Algoritmos Genéticos
-const model = { popTotal: 10, mutation: 0.50, best: 2, wmin: -1, wmax: 1 };
+const model = { popTotal: 100, mutation: 0.50, best: 2, wmin: -1, wmax: 1 };
 const ag = AGWB(model);
 
 let score = 0;
@@ -2700,14 +2700,14 @@ function BrasinStart() {
     network.setBiasDefault(1);
     network.setActivateFunction(4);                             // HLIM=0, IDENTITY=1, LOGISTIC=2, ReLU=3, TANH=4
 
-    console.log("PRIMEIRA POPULAÇÃO");
+    // console.log("PRIMEIRA POPULAÇÃO");
     for (let i = 0; i < model.popTotal; i++) {
         network.setWeightsRnd(model.wmin, model.wmax);
         let weights = network.getWeights();
         population.push({ id: i, weights: weights, value: 0 });
-        console.log({ id: i, weights: weights, value: 0 });
+        // console.log({ id: i, weights: weights, value: 0 });
     }
-    console.log("");
+    // console.log("");
 
     population[0].weights = [-0.1855074893456674,0.29426994963942255,-0.47938619620630796,0.8437695606009732,0.8759347234665169,-0.3718949989409794,-0.916297583228455,0.6687398519830881,0.35388256090730685,0.5096573251241288,-0.6688908878075628, 0.7668411819980281,-0.3557601923238609, 0.6600085237691049,0.31572942286144556, -0.26342007298619396,0.3649950852623314, -0.4817665343674413,0.7098784951392054, 0.1960845008187202,-0.1897816318628731, -0.11822496499351454,-0.8515678734502186, -0.019099177882437424,0.4347996661630198, 0.5561324128626319,0.4247042717910965, 0.9454885800007689,-0.9514872343970966, 0.005197405445398928, -0.9710143756441023];
     // population[0].weights = [0.5067281710568698,0.06005214754557198,0.6180719215750314,0.8365205858137559,-0.332401169943942,-0.4184370152069703,0.7587714177648675,0.3566954199038088,0.9484655166167912,0.2010242468254635,0.26802224160481414, -0.049507317729772904,0.907159849981535, 0.7568536822972884,-0.16799557347871685, 0.8323322237341086,-0.640887576148442, -0.935629651635911,0.15836851444085553, 0.4363859106199852,0.011790426551180566, -0.4860382420395903,-0.5930122202619827, -0.907984507550192,0.5831427476203013, -0.8752751810612684,0.4403442117027243, 0.6278012766864594,0.3623406350666518, 0.5771056934181771,0.8310383687528438, 0.7388539287030147,-0.11568945088685867, -0.5868440612619916]; // 159
@@ -2811,7 +2811,7 @@ const rna = function () {
     if (outputs[0] > 0.70) {
         tRex.tRex.startJump(Math.round(tRex.currentSpeed * 10));
         limitOutputs = [1, 0];
-    } else if (outputs[1] < 50) {
+    } else if (outputs[1] < 60) {
         tRex.onKeyDown({ keyCode: keyEvent.DUCK, type: 'keydown' });
         limitOutputs = [0, 1];
     } else {
