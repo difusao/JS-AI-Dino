@@ -35,3 +35,6 @@ v10.21.0
 > In your terminal run the command:
 `nodemon .\bin\server.js`
 
+## Screenshot
+> General view.
+![image1](images/image1.png)

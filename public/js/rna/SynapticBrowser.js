@@ -14,7 +14,7 @@ export default function SynapticBrowser(layers) {
 
     var network = new synaptic.Architect.Perceptron(...arrLayer);
     var FuncActiv;
-    
+
     const neurons = network.neurons();
     const trainner = new synaptic.Trainer(network);
     const networkJson = network.toJSON();
@@ -25,8 +25,8 @@ export default function SynapticBrowser(layers) {
         let distNode = 20;
         let distNodeHidden = 50;
         let distLayer = 50;
-        let posX = 200;
-        let posY = 10;
+        let posX = 180;
+        let posY = 8;
         let lastInputX = 0;
         let lastHiddenX = 0;
         let c = 0;
@@ -48,7 +48,14 @@ export default function SynapticBrowser(layers) {
             ctx.fillStyle = (draw.inputs[i] > 0 ? "#606060" : "#c0c0c0");
             ctx.font = "10px Arial";
             ctx.textAlign = "right";
-            ctx.fillText(draw.inputs[i], posX - 15, posY + (i * distNode) + nodeSize / 2);
+            ctx.fillText(draw.inputs[i], posX - 55, posY + (i * distNode) + nodeSize / 2);
+            ctx.closePath();
+
+            ctx.beginPath();
+            ctx.fillStyle = (draw.inputs[i] > 0 ? "#606060" : "#c0c0c0");
+            ctx.font = "10px Arial";
+            ctx.textAlign = "right";
+            ctx.fillText(draw.inputlabel[i], posX - 15, posY + (i * distNode) + nodeSize / 2);
             ctx.closePath();
 
             lastInputX = posX;
@@ -83,18 +90,25 @@ export default function SynapticBrowser(layers) {
             ctx.stroke();
             ctx.closePath();
 
+            // ctx.beginPath();
+            // ctx.fillStyle = (draw.limitOutput[i] == 0 ? "#c0c0c0" : "#606060");
+            // ctx.font = "15px 'Wingdings 3'";
+            // ctx.textAlign = "center";
+            // ctx.fillText(draw.outputsSymbol[i], lastHiddenX + distLayer + 15, posY + (i * distNode) + nodeSize / 2 + 2);
+            // ctx.closePath();
+
             ctx.beginPath();
             ctx.fillStyle = (draw.limitOutput[i] == 0 ? "#c0c0c0" : "#606060");
-            ctx.font = "15px 'Wingdings 3'";
-            ctx.textAlign = "center";
-            ctx.fillText(draw.outputsSymbol[i], lastHiddenX + distLayer + 15, posY + (i * distNode) + nodeSize / 2 + 2);
+            ctx.font = "10px Arial";
+            ctx.textAlign = "left";
+            ctx.fillText(draw.outputlabel[i], lastHiddenX + distLayer + 15, posY + (i * distNode) + nodeSize / 2);
             ctx.closePath();
 
             ctx.beginPath();
             ctx.fillStyle = (draw.limitOutput[i] == 0 ? "#c0c0c0" : "#606060");
             ctx.font = "10px Arial";
             ctx.textAlign = "left";
-            ctx.fillText(draw.outputs[i], lastHiddenX + distLayer + 25, posY + (i * distNode) + nodeSize / 2);
+            ctx.fillText(draw.outputs[i], lastHiddenX + distLayer + 50, posY + (i * distNode) + nodeSize / 2);
             ctx.closePath();
         }
 
@@ -194,6 +208,8 @@ export default function SynapticBrowser(layers) {
             bgFillStyle: params.bgFillStyle,
             bgStrokeStyle: params.bgStrokeStyle,
             outputsSymbol: ["Ç", "È"],
+            inputlabel: params.inputlabel,
+            outputlabel: params.outputlabel,
             ctx: params.ctx,
         };
 
@@ -395,7 +411,7 @@ export default function SynapticBrowser(layers) {
             af = Neuron.squash.TANH;
             afText = "TANH";
         }
-        
+
         for (let i = 0; i < neurons.length; i++)
             neurons[i].neuron.squash = af;
 
