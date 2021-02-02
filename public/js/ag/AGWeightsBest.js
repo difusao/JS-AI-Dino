@@ -114,7 +114,7 @@ export default function AGWeights(model) {
             let value = 0;
             let weights = [];
 
-            for (let j = 0; j < pais[0].weights.length - 1; j++) {
+            for (let j = 0; j < pais[0].weights.length; j++) {
                 if (j == roletaGene)                                                                // Gene sorteado.
                     weights.push((getRandomFloat(model.wmin, model.wmax, 1)[0]).toFixed(16));       // Aplica a mutação na população ajustada.
                 else
