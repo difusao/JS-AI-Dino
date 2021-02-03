@@ -25,7 +25,7 @@ export default function SynapticBrowser(layers) {
         let distNode = 20;
         let distNodeHidden = 50;
         let distLayer = 50;
-        let posX = 180;
+        let posX = 170;
         let posY = 8;
         let lastInputX = 0;
         let lastHiddenX = 0;

@@ -2,7 +2,7 @@ import SynapticBrowser from './rna/SynapticBrowser.js'
 import AGWB from './ag/AGWeightsBest.js'
 
 // TODO Redes Neurais Artificiais
-const layers = { inputs: 3, hiddens: [3], outputs: 2 };
+const layers = { inputs: 5, hiddens: [5], outputs: 2 };
 const network = SynapticBrowser(layers);
 
 // TODO Algoritmos Genéticos
@@ -779,14 +779,14 @@ let population = [];
 
             this.tRex.update(100, Trex.status.CRASHED);
 
-            // TODO Game over panel.
+            // TODO DINO: Game over panel.
             if (!this.gameOverPanel) {
                 this.gameOverPanel = new GameOverPanel(this.canvas, this.spriteDef.TEXT_SPRITE, this.spriteDef.RESTART, this.dimensions);
             } else {
                 this.gameOverPanel.draw();
             }
 
-            // TODO Update the high score.
+            // TODO DINO: Update the high score.
             if (this.distanceRan > this.highestScore) {
                 this.highestScore = Math.ceil(this.distanceRan);
                 this.distanceMeter.setHighScore(this.highestScore);
@@ -795,7 +795,7 @@ let population = [];
             // Reset the time clock.
             this.time = getTimeStamp();
 
-            // TODO Crash Reset
+            // TODO DINO: Crash Reset
             this.restart();
             BrainReset();
         },
@@ -836,7 +836,7 @@ let population = [];
                 this.update();
             }
 
-            // TODO Restart
+            // TODO DINO: Restart
             BrainRestart();
         },
 
@@ -2007,7 +2007,7 @@ let population = [];
                     var distanceStr = (this.defaultString + distance).substr(-this.maxScoreUnits);
                     this.digits = distanceStr.split('');
 
-                    // TODO Score
+                    // TODO DINO: Score
                     score = distance;
                 } else {
                     this.digits = this.defaultString.split('');
@@ -2061,7 +2061,7 @@ let population = [];
          */
         setHighScore: function (distance) {
             distance = this.getActualDistance(distance);
-            // TODO Best Score
+            // TODO DINO: Best Score
             best = distance;
 
             var highScoreStr = (this.defaultString + distance).substr(-this.maxScoreUnits);
@@ -2519,7 +2519,7 @@ let population = [];
             this.nightMode.update(showNightMode);
             this.updateClouds(deltaTime, currentSpeed);
 
-            // TODO Update for Panel
+            // TODO DINO: Update for Panel
             BrainPanel(this.canvasCtx);
 
             if (updateObstacles) {
@@ -2582,7 +2582,7 @@ let population = [];
                 let lastObstacle = this.obstacles[this.obstacles.length - 1];
                 let firstObstacle = this.obstacles[0];
 
-                // TODO Obstaculos
+                // TODO DINO: Obstaculos
                 let sensors = {
                     width: firstObstacle.width,
                     height: firstObstacle.height,
@@ -2684,13 +2684,13 @@ document.addEventListener('DOMContentLoaded', onDocumentLoad);
 var tRex;
 var ctx;
 var limitOutputs = [0, 0];
-var inputlabel = ["pos x", "pos y", "speed"];   // ["width", "height", "pos x", "pos y", "speed"];
+var inputlabel = ["width", "height", "xpos", "ypos", "speed"];
 var outputlabel = ["jump", "duck"];
 let inputs = [0, 0, 0, 0, 0];
 let outputs = [0, 0];
 
 function onDocumentLoad() {
-    // TODO Start
+    // TODO Call Start
     BrasinStart();
 
     tRex = new Runner('.interstitial-wrapper');
@@ -2710,17 +2710,22 @@ function BrasinStart() {
         // console.log({ id: i, weights: weights, value: 0 });
     }
     // console.log("");    
-    
-    // population[0].weights = []; // 0
-    
-    // TODO Primeiro peso
+
+    // population[0].weights = [0.4625057452961867,0.5699843728334097,-0.4360167421728005,0.13441969635208784,-0.5306618464270341,-0.6107323029759604,-0.07182403648827229,0.5432988429349286,0.25312830799684427,-0.8956622102175351,-0.5110164697574748, 0.6558832826488277,-0.7926750258299999, 0.6693752080467257,-0.8051844017742007, 0.08389122038064611,0.9316774355910535, -0.9737945807599648,0.529574207797542, 0.4675213054450764,0.7267796146681453, -0.4831015719349714,-0.35779218644454014, 0.4435876988466787,0.32761317781081933, 0.9287426246201083,-0.9393185742284764, -0.36270579628849964,-0.932868154016, -0.17305631855386006,-0.2322416277190147, 0.5283843951719707,-0.7872279334270029, 0.7425997327806417, 0.45510279987211755]; // 477
+    // population[0].weights = [-0.183997570284411, 0.3216067000693905, -0.7097492474199036, -0.08164764055867524, 0.973409097827203, -0.5693510192941265, -0.3764563758485213, 0.7375876071409846, 0.23579384348415555, -0.5613771747891629, 0.7697184724266521, -0.811628160306717, 0.731402910330218, -0.08397801149711848, 0.6139875410948656, 0.07623939410214664, -0.03845638383453798, -0.1117967335695993, 0.3353041711098319, -0.23385364441897583, -0.8819111474167021, -0.5712777606997448, 0.15611974338549528, 0.3183000214838949, 0.7953817532787961, -0.7968498846096916, 0.004548191422884873, -0.7692443066155166, -0.10537435149594465, 0.8673917055601561];
+    // population[1].weights = [0.20776407844592804, -0.41400155140317096, 0.12393769460556259, 0.9148626791087198, 0.5900997382681066, 0.9089686375057497, -0.714606736471338, 0.2845169200653168, -0.9905680400785073, 0.9250737011557231, -0.9596657879153296, -0.39260846470273814, 0.7687518597422733, -0.6862619488008894, 0.5901093499495382, 0.39336784367953825, 0.9708346180456062, -0.9522566124724672, 0.08291612637083734, -0.6460014266808782, -0.6324249423349029, 0.04687441115894497, 0.8503003773720619, 0.9946316689947139, -0.653444945938416, 0.4474700487231478, 0.6865978864930544, -0.22760938436375744, -0.9421675928439659, -0.37206763974024026];
+    // population[2].weights = [0.20776407844592804,-0.41400155140317096,0.12393769460556259,0.9148626791087198,0.5900997382681066,0.9089686375057497,-0.714606736471338,0.2845169200653168,-0.9905680400785073,0.9250737011557231,-0.9596657879153296, -0.39260846470273814,0.7687518597422733, -0.6862619488008894,0.5901093499495382, 0.39336784367953825,0.9708346180456062, -0.9522566124724672,0.08291612637083734, -0.6460014266808782,-0.6324249423349029, 0.04687441115894497,0.8503003773720619, 0.9946316689947139,-0.653444945938416, "-0.4316215756503348",0.6865978864930544, -0.22760938436375744,-0.9421675928439659, "-0.7590944959360746"]; // 596
+
+    // TODO First weight
     network.setWeights(population[0].weights);
 }
 
 // TODO BrainUpdate
 function BrainUpdate(sensors) {
-    // inputs = [Number((sensors.width / 1000).toFixed(3)), Number((sensors.height / 1000).toFixed(3)), Number((sensors.xpos / 1000).toFixed(3)), Number((sensors.ypos / 1000).toFixed(3)), Number((sensors.speed / 1000).toFixed(3))];
-    inputs = [Number((sensors.xpos / 1).toFixed(3)), Number((sensors.ypos / 1).toFixed(3)), Number((sensors.speed / 1).toFixed(3))];
+    let divisor = 1;
+    inputs = [Number((sensors.width / divisor).toFixed(3)), Number((sensors.height / divisor).toFixed(3)), Number(((sensors.xpos) / divisor).toFixed(3)), Number((sensors.ypos / divisor).toFixed(3)), Number((sensors.speed / divisor).toFixed(3))];
+    //inputs = [Number((sensors.xpos / 1).toFixed(3)), Number((sensors.ypos / 1).toFixed(3)), Number((sensors.speed / 1).toFixed(3))];
+    
     rna();
 }
 
@@ -2769,11 +2774,11 @@ function BrainPanel(context) {
     context.font = "Normal 14px Teko";
     context.fillStyle = '#404040';
 
-    context.fillText("Pop:", 10, 10);
-    context.fillText("Gen:", 10, 25);
+    context.fillText("Pop:", 5, 10);
+    context.fillText("Gen:", 5, 25);
 
-    context.fillText(pop + " / " + model.popTotal, 40, 10);
-    context.fillText(gen, 40, 25);
+    context.fillText(pop + " / " + model.popTotal, 35, 10);
+    context.fillText(gen, 35, 25);
 
     context.closePath();
 
@@ -2800,18 +2805,15 @@ function BrainPanel(context) {
 const rna = function () {
     outputs = network.Output(inputs);
 
-    var keyEvent = {
-        JUMP: 38,
-        DUCK: 40
-    };
-
     // TODO RNA: Key events
-    if (outputs[0] > 0.50) {
-        tRex.tRex.startJump(Math.round(tRex.currentSpeed * 10));
-        limitOutputs = [1, 0];
-    } else if (outputs[1] < 50) {
-        tRex.onKeyDown({ keyCode: keyEvent.DUCK, type: 'keydown' });
+    if (outputs[0] < 0.80 && outputs[1] > 0.80) {
+        // tRex.tRex.endJump();
+        tRex.onKeyDown({ keyCode: 40, type: 'keydown' });
         limitOutputs = [0, 1];
+    } else if (outputs[0] > 0.80 && outputs[1] < 0.80) {
+        // tRex.tRex.endJump();
+        tRex.tRex.startJump(tRex.currentSpeed);
+        limitOutputs = [1, 0];
     } else {
         limitOutputs = [0, 0];
     }
