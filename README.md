@@ -1,5 +1,5 @@
 ## AI-Dino
-AI-Dino
+Versão do jogo do dinossauro do Google que pula cactos, desenvolvido em Javascript e Rendes Neurais Artificiais e Algorítmos Genéticos para o dinossauro aprender e pular os cactos sozinho. 
 
 ## Neural Network
 > Layers
